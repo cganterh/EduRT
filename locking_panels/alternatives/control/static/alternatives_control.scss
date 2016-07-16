@@ -1,0 +1,99 @@
+@import '../../../../static/scss/bourbon_files/bourbon';
+@import '../../../../static/scss/constants';
+
+$fondopestana: #dadaf4;
+$bordepestana: #000;
+
+.alternatives {
+  &.closed {
+    display: block;
+  }
+
+  &.results {
+    @include transition(height 2s);
+
+    bottom: 0;
+    height: 170px;
+    margin-bottom: 2.5rem;
+    min-width: 100px;
+
+    &.closed {
+      height: 0;
+    }
+  }
+
+  &.icon {
+    height: 1.5rem;
+  }
+
+  &.plot {
+    margin-top: 10px;
+  }
+
+  &.plot-wrapper {
+    background-color: $fondopestana;
+    border: 1px solid $bordepestana;
+    margin: 2.5rem 0;
+    min-width: 100px;
+    padding-bottom: 2.5rem;
+  }
+
+  &.results.closed &.close.icon {
+    display: none;
+  }
+
+  &.results.closed &.open.icon {
+    display: block;
+  }
+
+  &.results.opened &.close.icon {
+    display: block;
+  }
+
+  &.results.opened &.open.icon {
+    display: none;
+  }
+}
+
+.toggle-button {
+  @include position(absolute, null 0 null null);
+
+  border: 1px solid $bordepestana;
+  border-bottom: 0;
+  border-radius: 0;
+
+  &:focus {
+    border: 1px solid $bordepestana;
+    border-bottom: 0;
+    outline: 0;
+  }
+}
+
+.alternatives-control {
+  &-button {
+    margin: .25rem;
+    text-align: center;
+
+    &.show .icon {
+      @include size(2rem);
+
+      vertical-align: middle;
+    }
+  }
+
+  &-button.show &.show.icon {
+    display: initial;
+  }
+
+  &-button.show &.close.icon {
+    display: none;
+  }
+
+  &-button.hide &.show.icon {
+    display: none;
+  }
+
+  &-button.hide &.close.icon {
+    display: initial;
+  }
+}
