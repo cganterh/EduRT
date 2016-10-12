@@ -20,15 +20,13 @@
 
 
 from tornado.gen import coroutine
-
 import src
 from src.wsclass import subscribe
-
-
 class AlterQuestionLockingPanel(
         src.boiler_ui_module.BoilerUIModule):
     id_ = 'alternatives-question-panel'
-    classes = {'scrolling-panel', 'student', 'teacher'}
+    classes = {'scrolling-panel', 'student'}
+    name = 'Panel de Preguntas'
     conf = {
         'static_url_prefix': '/alternatives/question/',
         'static_path':

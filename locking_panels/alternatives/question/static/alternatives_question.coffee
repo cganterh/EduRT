@@ -18,13 +18,35 @@
 
 
 #VARIABLES
-
-
+alternatives_form = document.getElementById 'alternatives_form'
+get_span = null
+template = null
+template_content = null
+template_content_input = null
+template_content_label = null
+template_clone = null
+question_data = null
+alternatives_form_name_single = null
 
 #FUNCTIONS
+@addWording = (text) ->
+  alternatives_form.textContent = text
 
-
+@addAlternative = (index, text) ->
+  template = document.getElementById 'alternatives_template'
+  get_span = template.content.querySelector 'span'
+  template_content = template.content
+  template_content_input = template.content.querySelector 'input'
+  template_content_label = template.content.querySelector 'label'
+  template_content_input.value = index
+  get_span.textContent = text
+  template_clone = document.importNode template_content, true
+  alternatives_form.appendChild template_clone
 
 #SETUP
-
-
+ws.addMessageListener 'alternatives.show', (message) ->
+  addWording message.wording
+  addAlternative index, text for text, index in message.answers
+  alternatives_form.addEventListener 'change', ->
+    ws.sendJSON {'type':'alternatives.answer', \
+    'alternative':parseInt(alternatives_form.alternatives_answer.value)}
