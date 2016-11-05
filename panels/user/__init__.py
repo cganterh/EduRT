@@ -174,6 +174,52 @@ class UserWSC(src.wsclass.WSClass):
             )
             raise ite from norfdb
 
+    @subscribe('message.filter.student', 'l')
+    @coroutine
+    def redirect_message_if_user_is_student(
+            self, message, content=True):
+        """Redirects a message if the user is a student.
+
+        This coroutine redirects a message to the local
+        channel only if the current user is a student.
+
+        :param dict message:
+            The message that should be redirected if the
+            user is a student.
+
+        :param bool content:
+            If ``True``, just the object corresponding to
+            the ``'content'`` key of ``message`` will be
+            sent.
+            If ``False``, the whole message will be sent.
+
+        :raises MalformedMessageError:
+            If ``content`` is ``True``, but ``message``
+            doesn't have the ``'content'`` key.
+
+        :raises NotDictError:
+            If ``message`` is not a dictionary.
+
+        :raises NoMessageTypeError:
+            If the message or it's content doesn't have the
+            ``'type'`` key.
+
+        :raises NoActionForMsgTypeError:
+            If ``send_function`` of the ``PubSub`` object
+            wasn't specified during object creation and
+            there's no registered action for this message
+            type.
+
+        :raises AttributeError:
+            If the user is not yet loaded or if the user is
+            ``None``.
+        """
+        try:
+            if self.handler.user.status == 'seat':
+                self.redirect_to('l', message, content)
+        except:
+            raise
+
     @subscribe('teacherMessage', 'l')
     @coroutine
     def redirect_message_if_user_is_teacher(
